@@ -328,6 +328,22 @@ $('#resetDay').addEventListener('click', () => {
 
 const dialog = $('#taskDialog');
 let dialogDays = [];
+let scrollLockY = 0;
+
+// impede a lista de rolar por baixo do formulário
+function travarFundo() {
+  scrollLockY = window.scrollY;
+  document.body.style.top = `-${scrollLockY}px`;
+  document.body.classList.add('dialog-open');
+}
+
+function destravarFundo() {
+  document.body.classList.remove('dialog-open');
+  document.body.style.top = '';
+  window.scrollTo(0, scrollLockY);
+}
+
+dialog.addEventListener('close', destravarFundo);
 
 function buildPickers() {
   const ip = $('#iconPicker');
@@ -377,6 +393,7 @@ function openDialog(task) {
   dialogDays = task ? [...(task.dias || [])] : [0, 1, 2, 3, 4, 5, 6];
   $('#deleteTask').hidden = !task;
   syncPickers($('#fIcon').value);
+  travarFundo();
   dialog.showModal();
   $('#fTitle').focus();
 }

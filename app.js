@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------
-   Rotina do Danilo — lógica do app (sem dependências)
+   Rotina da Edilane — lógica do app (sem dependências)
 --------------------------------------------------------------- */
 
-const STORE_KEY = 'rotina-danilo:v1';
+const STORE_KEY = 'rotina-edilane:v1';
 const WEEKDAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const PERIODS = {
   manha: { nome: 'Manhã', ordem: 1 },
@@ -35,6 +35,7 @@ function seed() {
     done: {},
     notes: {},
     theme: null,
+    nome: 'Edilane',
   };
 }
 
@@ -48,6 +49,7 @@ function load() {
       done: data.done && typeof data.done === 'object' ? data.done : {},
       notes: data.notes && typeof data.notes === 'object' ? data.notes : {},
       theme: data.theme === 'dark' || data.theme === 'light' ? data.theme : null,
+      nome: typeof data.nome === 'string' && data.nome.trim() ? data.nome.trim() : 'Edilane',
     };
   } catch (e) {
     return seed();
@@ -127,7 +129,8 @@ function renderHeader() {
   });
 
   const h = new Date().getHours();
-  $('#greeting').textContent = h < 12 ? 'Bom dia!' : h < 18 ? 'Boa tarde!' : 'Boa noite!';
+  const saudacao = h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite';
+  $('#greeting').textContent = `${saudacao}, ${state.nome || 'Edilane'}!`;
 }
 
 function renderWeek() {
@@ -285,6 +288,16 @@ function toggleTask(id) {
   save();
   renderAll();
 }
+
+// trocar o nome exibido na saudação
+$('#greeting').addEventListener('click', () => {
+  const novo = prompt('Qual nome deve aparecer na saudação?', state.nome || 'Edilane');
+  if (novo === null) return;
+  state.nome = novo.trim() || 'Edilane';
+  save();
+  renderHeader();
+  toast('Nome atualizado.');
+});
 
 $('#noteBox').addEventListener('input', (e) => {
   const v = e.target.value;

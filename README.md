@@ -1,8 +1,8 @@
-# Rotina do Danilo
+# Rotina da Edilane
 
-App de rotina diária: monte sua agenda por período (manhã, tarde e noite), marque
+App de rotina diária: monte a agenda por período (manhã, tarde e noite), marque
 o que foi feito e acompanhe o progresso do dia e da semana. Interface em
-português, com tema **verde escuro e claro**.
+português, identidade própria e tema **verde escuro e claro**.
 
 ## Recursos
 
@@ -12,6 +12,7 @@ português, com tema **verde escuro e claro**.
 - Estatísticas: dias seguidos com rotina 100%, tarefas feitas hoje e média da semana
 - Criar / editar / excluir tarefas com **ícone, horário e dias da semana** de repetição
 - **Anotações do dia**
+- Saudação personalizada — toque no "Bom dia, Edilane!" para trocar o nome
 - **Tema claro e escuro** (segue o sistema por padrão, com botão para alternar)
 - Funciona **offline** e pode ser instalado como app (PWA)
 - Dados salvos localmente no aparelho (`localStorage`) — nada é enviado para servidores
@@ -25,6 +26,13 @@ sirva a pasta por HTTP, por exemplo:
 python3 -m http.server 8000
 # depois abra http://localhost:8000
 ```
+
+### Publicar no GitHub Pages
+
+O workflow `.github/workflows/pages.yml` publica a pasta do projeto
+automaticamente a cada push na branch `main`. Para ativar, vá em
+**Settings → Pages** e selecione **Source: GitHub Actions**. O app fica
+disponível em `https://danilodme-rgb.github.io/App-EDILANE/`.
 
 ## Estrutura
 

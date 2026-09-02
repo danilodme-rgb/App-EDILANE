@@ -1,5 +1,5 @@
-/* Cache simples para uso offline — Rotina do Danilo */
-const CACHE = 'rotina-danilo-v1';
+/* Cache simples para uso offline — Rotina da Edilane */
+const CACHE = 'rotina-edilane-v1';
 const ASSETS = [
   './',
   './index.html',

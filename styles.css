@@ -1,5 +1,5 @@
 /* ---------------------------------------------------------------
-   Rotina do Danilo — paleta verde (escuro + claro)
+   Rotina da Edilane — paleta verde (escuro + claro)
 --------------------------------------------------------------- */
 
 :root {
@@ -451,3 +451,6 @@ textarea:focus, input:focus, select:focus {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+.greeting { cursor: pointer; }
+.greeting:hover { text-decoration: underline dotted; text-underline-offset: 4px; }

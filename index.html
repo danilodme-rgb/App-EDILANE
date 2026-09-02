@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f3d2e">
+<meta name="description" content="Rotina da Edilane — organize sua rotina diária, marque hábitos e acompanhe seu progresso.">
+<title>Rotina da Edilane</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21c0-6.5 3-11 8-12.5C20.5 15 17 21 12 21z"/>
+          <path d="M12 21C12 14.5 9 10 4 8.5 3.5 15 7 21 12 21z"/>
+          <path d="M12 21v-6"/>
+        </svg>
+      </span>
+      <div class="brand-text">
+        <h1>Rotina da Edilane</h1>
+        <p id="todayLabel">—</p>
+      </div>
+    </div>
+    <button id="themeToggle" class="icon-btn" type="button" title="Alternar tema" aria-label="Alternar tema claro/escuro">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </header>
+
+  <section class="hero card">
+    <div class="hero-ring">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="ring-bg" cx="60" cy="60" r="52"/>
+        <circle id="ringFg" class="ring-fg" cx="60" cy="60" r="52"/>
+      </svg>
+      <div class="hero-ring-label">
+        <strong id="progressPct">0%</strong>
+        <span id="progressCount">0 de 0</span>
+      </div>
+    </div>
+    <div class="hero-info">
+      <h2 id="greeting" class="greeting" title="Toque para trocar o nome">Bom dia!</h2>
+      <p id="heroMsg">Vamos começar a rotina de hoje.</p>
+      <div class="stats">
+        <div class="stat">
+          <strong id="statStreak">0</strong>
+          <span>dias seguidos</span>
+        </div>
+        <div class="stat">
+          <strong id="statDone">0</strong>
+          <span>feitas hoje</span>
+        </div>
+        <div class="stat">
+          <strong id="statWeek">0%</strong>
+          <span>na semana</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="week" id="weekStrip" aria-label="Dias da semana"></nav>
+
+  <section class="filters" role="tablist" aria-label="Filtrar por período">
+    <button class="chip is-active" data-filter="todos" role="tab" type="button">Todos</button>
+    <button class="chip" data-filter="manha" role="tab" type="button">Manhã</button>
+    <button class="chip" data-filter="tarde" role="tab" type="button">Tarde</button>
+    <button class="chip" data-filter="noite" role="tab" type="button">Noite</button>
+  </section>
+
+  <main id="list" class="list" aria-live="polite"></main>
+
+  <section class="card notes">
+    <label for="noteBox">Anotações do dia</label>
+    <textarea id="noteBox" rows="3" placeholder="Como foi o dia? O que travou? O que deu certo?"></textarea>
+  </section>
+
+  <footer class="footer">
+    <button id="resetDay" class="btn ghost" type="button">Limpar marcações do dia</button>
+    <span class="footer-note">Seus dados ficam salvos apenas neste aparelho.</span>
+  </footer>
+
+  <button id="fab" class="fab" type="button" aria-label="Nova tarefa">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+  </button>
+</div>
+
+<dialog id="taskDialog" class="dialog">
+  <form id="taskForm" method="dialog">
+    <h3 id="dialogTitle">Nova tarefa</h3>
+
+    <label for="fTitle">Tarefa</label>
+    <input id="fTitle" name="titulo" type="text" maxlength="80" required placeholder="Ex.: Caminhada de 30 min">
+
+    <div class="row">
+      <div>
+        <label for="fPeriod">Período</label>
+        <select id="fPeriod" name="periodo">
+          <option value="manha">Manhã</option>
+          <option value="tarde">Tarde</option>
+          <option value="noite">Noite</option>
+        </select>
+      </div>
+      <div>
+        <label for="fTime">Horário</label>
+        <input id="fTime" name="hora" type="time">
+      </div>
+    </div>
+
+    <label for="fIcon">Ícone</label>
+    <div class="icon-picker" id="iconPicker"></div>
+    <input type="hidden" id="fIcon" name="icone" value="✅">
+
+    <fieldset class="days">
+      <legend>Repetir nos dias</legend>
+      <div id="dayPicker" class="day-picker"></div>
+    </fieldset>
+
+    <div class="dialog-actions">
+      <button type="button" id="deleteTask" class="btn danger" hidden>Excluir</button>
+      <span class="spacer"></span>
+      <button type="button" id="cancelTask" class="btn ghost">Cancelar</button>
+      <button type="submit" class="btn primary">Salvar</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

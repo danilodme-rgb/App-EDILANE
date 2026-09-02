@@ -1,0 +1,15 @@
+{
+  "name": "Rotina da Edilane",
+  "short_name": "Edilane",
+  "description": "O app de rotina da Edilane: organize o dia, marque hábitos e acompanhe seu progresso.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f1fbf5",
+  "theme_color": "#0f5132",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -449,6 +449,27 @@ buildPickers();
 renderAll();
 save();
 
+/* Atualização automática: quando uma versão nova é publicada, o service
+   worker assume e a página recarrega sozinha. O recarregamento só acontece
+   se já havia uma versão anterior no ar, para não recarregar na 1ª visita. */
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  let controlador = navigator.serviceWorker.controller;
+  let recarregando = false;
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    const anterior = controlador;
+    controlador = navigator.serviceWorker.controller;
+    // a primeira tomada de controle é a instalação, não uma atualização
+    if (!anterior || recarregando) return;
+    recarregando = true;
+    location.reload();
+  });
+
+  navigator.serviceWorker.register('sw.js').then((reg) => {
+    const procurarAtualizacao = () => reg.update().catch(() => {});
+    procurarAtualizacao();
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') procurarAtualizacao();
+    });
+  }).catch(() => {});
 }
